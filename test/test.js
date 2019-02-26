@@ -2,7 +2,7 @@ const test = require('ava')
 
 require('./helpers/oauth-server-mock')
 
-const { auth1Middleware, auth1CacheLru, auth1CacheRedis } = require('../')
+const { auth1Oauth, auth1CacheLru, auth1CacheRedis } = require('../')
 const config = require('./helpers/config')
 
 const middlewareOptions = {
@@ -19,8 +19,8 @@ const middlewareOptions = {
   debug: true
 }
 
-const auth1 = auth1Middleware(middlewareOptions, console, auth1CacheLru())
-const auth1Redis = auth1Middleware(middlewareOptions, console, auth1CacheRedis({ host: config.redisHost }))
+const auth1 = auth1Oauth(middlewareOptions, console, auth1CacheLru())
+const auth1Redis = auth1Oauth(middlewareOptions, console, auth1CacheRedis({ host: config.redisHost }))
 
 test('should return correct authorization header token for basic auth', t => {
   const expectedResult = 'NWM2ZmM0ODg4ZGI0YmMwMDAxYmVhY2VjOlJVT3VrNGJrV0ZObGp1Wnpxd3E1enJzMEdkQ0xZOVUzTUpxdWJ1RFZpVXY3WFF6Z2lVODR5Mjg4Smgwa2xLMVo='
@@ -298,7 +298,7 @@ test('should not set token with another client id', async t => {
 test('should cover body authorizationMethod method for requests wrapper', async t => {
   const anotherMiddlewareOptions = Object.assign({}, middlewareOptions, { authorizationMethod: 'body' })
 
-  const anotherAuth1 = auth1Middleware(anotherMiddlewareOptions, console, auth1CacheLru())
+  const anotherAuth1 = auth1Oauth(anotherMiddlewareOptions, console, auth1CacheLru())
 
   const params = {
     code: config.code
