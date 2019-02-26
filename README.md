@@ -1,7 +1,7 @@
 # authone-middleware-node
 
-[![build status](https://img.shields.io/travis/ProtocolONE/authone-middleware-node.svg)](https://travis-ci.com/ProtocolONE/authone-middleware-node)
-[![code coverage](https://img.shields.io/codecov/c/github/ProtocolONE/authone-middleware-node.svg)](https://codecov.io/gh/ProtocolONE/authone-middleware-node)
+[![build status](https://img.shields.io/travis/ProtocolONE/authone-middleware-node.svg?branch=master)](https://travis-ci.com/ProtocolONE/authone-middleware-node)
+[![codecov](https://codecov.io/gh/ProtocolONE/authone-middleware-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-middleware-node)
 [![license](https://img.shields.io/github/license/ProtocolONE/authone-middleware-node.svg)](LICENSE)
 
 > Node.JS middleware for ProtocolONE's Auth1 server.

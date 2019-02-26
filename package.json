@@ -54,8 +54,7 @@
     }
   },
   "keywords": [
-    "authone-middleware-node",
-    "lass"
+    "authone-middleware-node"
   ],
   "license": "Apache-2.0",
   "lint-staged": {
@@ -77,9 +76,9 @@
   "main": "index.js",
   "nyc": {
     "check-coverage": true,
-    "lines": 50,
-    "functions": 50,
-    "branches": 50,
+    "lines": 80,
+    "functions": 80,
+    "branches": 80,
     "reporter": [
       "lcov",
       "html",
