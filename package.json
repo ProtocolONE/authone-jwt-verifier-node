@@ -22,12 +22,17 @@
   "dependencies": {
     "axios": "^0.18.0",
     "ioredis": "^4.6.2",
+    "koa-unless": "^1.0.7",
+    "lodash": "^4.17.11",
     "lru-cache": "^5.1.1",
     "querystring": "^0.2.0",
+    "string-template": "^1.0.0",
     "url": "^0.11.0"
   },
   "devDependencies": {
     "ava": "latest",
+    "chai": "^4.2.0",
+    "chai-spies": "^1.0.0",
     "codecov": "latest",
     "cross-env": "latest",
     "eslint": "latest",
