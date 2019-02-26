@@ -155,7 +155,7 @@ test('should returns correct authorize url', t => {
   }
 
   const expectedResult = config.publicHost + '/oauth2/authorize?response_type=code' +
-    `&client_id=${config.clientId}&scope=${encodeURIComponent(config.scope.join(','))}` +
+    `&client_id=${config.clientId}&scope=${encodeURIComponent(config.scope.join(' '))}` +
     `&redirect_uri=${encodeURIComponent(config.redirectUri)}&state=${config.state}`
 
   t.is(auth1.getAuthorizeUrl(params), expectedResult)
@@ -511,12 +511,12 @@ test('should revoke tokens with Redis cache', async t => {
 
 test('should returns correct authorize url with no cache', t => {
   const params = {
-    scope: config.scope.join(','),
+    scope: config.scope.join(' '),
     state: config.state
   }
 
   const expectedResult = config.publicHost + '/oauth2/authorize?response_type=code' +
-    `&client_id=${config.clientId}&scope=${encodeURIComponent(config.scope.join(','))}` +
+    `&client_id=${config.clientId}&scope=${encodeURIComponent(config.scope.join(' '))}` +
     `&redirect_uri=${encodeURIComponent(config.redirectUri)}&state=${config.state}`
 
   t.is(auth1NoCache.getAuthorizeUrl(params), expectedResult)
@@ -760,7 +760,7 @@ test('koa middleware should return correct html response by default', t => {
   t.is(koaMiddleware.setHtmlResponse(fakeCtx, {}), undefined)
 
   t.is(fakeCtx.type, 'html')
-  t.is(fakeCtx.body, `var result = { error: "unknown", access_token: "", expires_in: 0, success: false }; var targetOrigin = "${config.targetOrigin}"`)
+  t.is(fakeCtx.body, `var result = { error: "", access_token: "", expires_in: 0, success: true }; var targetOrigin = "${config.targetOrigin}"`)
 })
 
 test('koa middleware should return correct html response with success', t => {
