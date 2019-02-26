@@ -1,8 +1,12 @@
 dist: xenial
+
 language: node_js
 
 node_js:
   - "node"
+
+services:
+  - redis-server
 
 script:
   - npm run test-coverage

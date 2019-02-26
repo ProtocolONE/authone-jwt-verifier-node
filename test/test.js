@@ -2,7 +2,7 @@ const test = require('ava')
 
 require('./helpers/oauth-server-mock')
 
-const auth1Middleware = require('../')
+const { auth1Middleware, auth1CacheLru, auth1CacheRedis } = require('../')
 const config = require('./helpers/config')
 
 const middlewareOptions = {
@@ -16,15 +16,20 @@ const middlewareOptions = {
   redirectUri: config.redirectUri,
   clientId: config.clientId,
   clientSecret: config.clientSecret,
-  logger: console,
   debug: true
 }
 
-const auth1 = auth1Middleware(middlewareOptions)
+const auth1 = auth1Middleware(middlewareOptions, console, auth1CacheLru())
+const auth1Redis = auth1Middleware(middlewareOptions, console, auth1CacheRedis({ host: config.redisHost }))
 
 test('should return correct authorization header token for basic auth', t => {
   const expectedResult = 'NWM2ZmM0ODg4ZGI0YmMwMDAxYmVhY2VjOlJVT3VrNGJrV0ZObGp1Wnpxd3E1enJzMEdkQ0xZOVUzTUpxdWJ1RFZpVXY3WFF6Z2lVODR5Mjg4Smgwa2xLMVo='
   t.is(auth1.getAuthorizationHeaderToken(), expectedResult)
+})
+
+test('should return null instead oauth2 tokens while authentication is not passed and no token set', t => {
+  const expectedResult = null
+  t.is(auth1.getOauth2Tokens(), expectedResult)
 })
 
 test('should return error on refresh token while authentication is not passed and no token set', async t => {
@@ -110,6 +115,25 @@ test('should get userinfo by token', async t => {
 })
 
 test('should introspect token', async t => {
+  const params = {}
+
+  const expectedResult = {
+    'active': true,
+    'scope': config.scope.join(' '),
+    'client_id': config.clientId,
+    'sub': config.userId,
+    'exp': 1551191517,
+    'iat': 1551187917,
+    'iss': 'http://192.168.99.100:4444/',
+    'token_type': 'access_token',
+    'invalid': false,
+    'reason': ''
+  }
+
+  t.deepEqual(await auth1.introspect(params), expectedResult)
+})
+
+test('should introspect token twice (and get it from cache, if it exists)', async t => {
   const params = {}
 
   const expectedResult = {
@@ -274,7 +298,7 @@ test('should not set token with another client id', async t => {
 test('should cover body authorizationMethod method for requests wrapper', async t => {
   const anotherMiddlewareOptions = Object.assign({}, middlewareOptions, { authorizationMethod: 'body' })
 
-  const anotherAuth1 = auth1Middleware(anotherMiddlewareOptions)
+  const anotherAuth1 = auth1Middleware(anotherMiddlewareOptions, console, auth1CacheLru())
 
   const params = {
     code: config.code
@@ -284,4 +308,59 @@ test('should cover body authorizationMethod method for requests wrapper', async 
 
   const error = await t.throwsAsync(async () => { await anotherAuth1.getToken(params) })
   t.is(error.message, expectedResult)
+})
+
+test('should set token with Redis cache', async t => {
+  const params = {}
+
+  const token = {
+    access_token: config.accessToken,
+    expires_in: config.expiresIn,
+    id_token: config.idToken,
+    refresh_token: config.refreshToken,
+    scope: config.scope.join(' '),
+    token_type: config.tokenType
+  }
+
+  const expectedResult = {
+    'active': true,
+    'scope': config.scope.join(' '),
+    'client_id': config.clientId,
+    'sub': config.userId,
+    'exp': 1551191517,
+    'iat': 1551187917,
+    'iss': 'http://192.168.99.100:4444/',
+    'token_type': 'access_token',
+    'invalid': false,
+    'reason': ''
+  }
+
+  t.deepEqual(await auth1Redis.setOauth2Tokens(token, params), expectedResult)
+})
+
+test('should introspect token with Redis cache', async t => {
+  const params = {}
+
+  const expectedResult = {
+    'active': true,
+    'scope': config.scope.join(' '),
+    'client_id': config.clientId,
+    'sub': config.userId,
+    'exp': 1551191517,
+    'iat': 1551187917,
+    'iss': 'http://192.168.99.100:4444/',
+    'token_type': 'access_token',
+    'invalid': false,
+    'reason': ''
+  }
+
+  t.deepEqual(await auth1Redis.introspect(params), expectedResult)
+})
+
+test('should revoke tokens with Redis cache', async t => {
+  const params = {}
+
+  const expectedResult = null
+
+  t.is(await auth1Redis.revokeAll(params), expectedResult)
 })
