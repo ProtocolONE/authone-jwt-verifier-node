@@ -26,7 +26,8 @@ const config = {
   refreshToken: 'uw9IMYmuufnUY-ZEeK9nDgc2i-a09xjMwbxxvfVmLs0.0Bc3yb5KJYMSlsDwU0t2Z_e3lALBIzw6K7WpCz16FsI',
   refreshedRefreshToken: 'WbX6b_fa9RPEICxgHeFDFIZDuMTxT9iLyBDFKh4xROg.Bct3Sl_w12_B1JeI5JBJmOJ-w1hG72Hv9Q4NTwrNAtY',
   tokenType: 'bearer',
-  userId: 'b62klDf0HeiJdNMv8K263nfE'
+  userId: 'b62klDf0HeiJdNMv8K263nfE',
+  redisHost: 'localhost'
 }
 
 module.exports = config
