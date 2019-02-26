@@ -1,0 +1,107 @@
+{
+  "name": "authone-middleware-node",
+  "description": "Node.js middleware for auth1",
+  "version": "1.0.0",
+  "author": "Evgeniy Strigo <evgeniy.strigo@protocol.one> ()",
+  "ava": {
+    "failFast": true,
+    "verbose": true
+  },
+  "bugs": {
+    "url": "https://github.com/ProtocolONE/authone-middleware-node/issues",
+    "email": "evgeniy.strigo@protocol.one"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "contributors": [
+    "Evgeniy Strigo <evgeniy.strigo@protocol.one> ()"
+  ],
+  "dependencies": {
+    "axios": "^0.18.0",
+    "querystring": "^0.2.0",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "ava": "latest",
+    "codecov": "latest",
+    "cross-env": "latest",
+    "eslint": "latest",
+    "eslint-config-standard": "latest",
+    "eslint-plugin-standard": "latest",
+    "fixpack": "latest",
+    "husky": "latest",
+    "koa": "^2.7.0",
+    "koa-body": "^4.0.8",
+    "koa-convert": "^1.2.0",
+    "koa-router": "^7.4.0",
+    "lint-staged": "latest",
+    "nyc": "latest",
+    "prettier": "latest",
+    "remark-cli": "latest",
+    "remark-preset-github": "latest",
+    "standard": "latest"
+  },
+  "engines": {
+    "node": ">=8.3"
+  },
+  "homepage": "https://github.com/ProtocolONE/authone-middleware-node",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm test"
+    }
+  },
+  "keywords": [
+    "authone-middleware-node",
+    "lass"
+  ],
+  "license": "Apache-2.0",
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "standard --fix",
+        "git add"
+      ],
+      "*.md": [
+        "remark . -qfo",
+        "git add"
+      ],
+      "package.json": [
+        "fixpack",
+        "git add"
+      ]
+    }
+  },
+  "main": "index.js",
+  "nyc": {
+    "check-coverage": true,
+    "lines": 50,
+    "functions": 50,
+    "branches": 50,
+    "reporter": [
+      "lcov",
+      "html",
+      "text"
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-github"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ProtocolONE/authone-middleware-node"
+  },
+  "scripts": {
+    "ava": "cross-env NODE_ENV=test ava -s",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "format": "standard --fix",
+    "lint": "standard && remark . -qfo",
+    "nyc": "cross-env NODE_ENV=test nyc ava -s",
+    "test": "npm run lint && npm run ava -s",
+    "test-coverage": "npm run lint && npm run nyc"
+  }
+}
