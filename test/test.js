@@ -39,7 +39,7 @@ const middlewareOptions = {
   clientId: config.clientId,
   clientSecret: config.clientSecret,
   cacheType: 'lru',
-  sessionNamespace: config.sessionNamespace,
+  namespace: config.namespace,
   allowedClientIds: [config.clientId],
   postmessageHtmlTemplate: config.template,
   postMessageTargetOrigin: config.targetOrigin
@@ -605,28 +605,28 @@ test('should revoke tokens with no cache', async t => {
 
 test('koa middleware should throws error when get userinfo for not logged user', async t => {
   const ctx = getFakeCtx()
-  t.is(ctx.session[config.sessionNamespace], undefined)
+  t.is(ctx.session[config.namespace], undefined)
   t.is(await koaMiddleware.userinfo(ctx), undefined)
   expect(ctx.throw).to.have.been.called()
 })
 
 test('koa middleware should throws error when call refresh for not logged user', async t => {
   const ctx = getFakeCtx()
-  t.is(ctx.session[config.sessionNamespace], undefined)
+  t.is(ctx.session[config.namespace], undefined)
   t.is(await koaMiddleware.refresh(ctx), undefined)
   expect(ctx.throw).to.have.been.called()
 })
 
 test('koa middleware should throws error when call introspect for not logged user', async t => {
   const ctx = getFakeCtx()
-  t.is(ctx.session[config.sessionNamespace], undefined)
+  t.is(ctx.session[config.namespace], undefined)
   t.is(await koaMiddleware.introspect(ctx), undefined)
   expect(ctx.throw).to.have.been.called()
 })
 
 test('koa middleware should throws error when call logout for not logged user', async t => {
   const ctx = getFakeCtx()
-  t.is(ctx.session[config.sessionNamespace], undefined)
+  t.is(ctx.session[config.namespace], undefined)
   t.is(await koaMiddleware.logout(ctx), undefined)
   expect(ctx.throw).to.have.been.called()
 })
@@ -661,11 +661,11 @@ test('koa middleware should authorize success', async t => {
     scope: config.scope.join(' '),
     token_type: config.tokenType
   }
-  t.deepEqual(fakeCtx.session[config.sessionNamespace], expectedResult)
+  t.deepEqual(fakeCtx.session[config.namespace], expectedResult)
 })
 
 test('koa middleware should throws error while login with already logged user', async t => {
-  t.not(fakeCtx.session[config.sessionNamespace], undefined)
+  t.not(fakeCtx.session[config.namespace], undefined)
 
   const expectedResult = `var result = { error: "user-already-logged", access_token: "", expires_in: 0, success: false }; var targetOrigin = "${config.targetOrigin}"`
 
@@ -674,7 +674,7 @@ test('koa middleware should throws error while login with already logged user', 
 })
 
 test('koa middleware should throws error while authorize with already logged user', async t => {
-  t.not(fakeCtx.session[config.sessionNamespace], undefined)
+  t.not(fakeCtx.session[config.namespace], undefined)
 
   const expectedResult = `var result = { error: "user-already-logged", access_token: "", expires_in: 0, success: false }; var targetOrigin = "${config.targetOrigin}"`
 
@@ -698,7 +698,7 @@ test('koa middleware should return refresh success', async t => {
     scope: config.scope.join(' '),
     token_type: config.tokenType
   }
-  t.deepEqual(fakeCtx.session[config.sessionNamespace], ininitalState)
+  t.deepEqual(fakeCtx.session[config.namespace], ininitalState)
 
   t.is(await koaMiddleware.refresh(fakeCtx), undefined)
 
@@ -710,7 +710,7 @@ test('koa middleware should return refresh success', async t => {
     scope: config.scope.join(' '),
     token_type: config.tokenType
   }
-  t.deepEqual(fakeCtx.session[config.sessionNamespace], expectedResult)
+  t.deepEqual(fakeCtx.session[config.namespace], expectedResult)
 })
 
 test('koa middleware should return introspect success', async t => {
@@ -722,7 +722,7 @@ test('koa middleware should return introspect success', async t => {
     scope: config.scope.join(' '),
     token_type: config.tokenType
   }
-  t.deepEqual(fakeCtx.session[config.sessionNamespace], ininitalState)
+  t.deepEqual(fakeCtx.session[config.namespace], ininitalState)
 
   const expectedResult = {
     'active': true,
@@ -749,11 +749,11 @@ test('koa middleware should return logout success', async t => {
     scope: config.scope.join(' '),
     token_type: config.tokenType
   }
-  t.deepEqual(fakeCtx.session[config.sessionNamespace], ininitalState)
+  t.deepEqual(fakeCtx.session[config.namespace], ininitalState)
 
   t.is(await koaMiddleware.logout(fakeCtx), undefined)
 
-  t.is(fakeCtx.session[config.sessionNamespace], undefined)
+  t.is(fakeCtx.session[config.namespace], undefined)
 })
 
 test('koa middleware should return correct html response by default', t => {

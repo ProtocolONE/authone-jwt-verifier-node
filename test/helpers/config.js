@@ -27,7 +27,7 @@ const config = {
   refreshedRefreshToken: 'WbX6b_fa9RPEICxgHeFDFIZDuMTxT9iLyBDFKh4xROg.Bct3Sl_w12_B1JeI5JBJmOJ-w1hG72Hv9Q4NTwrNAtY',
   tokenType: 'bearer',
   userId: 'b62klDf0HeiJdNMv8K263nfE',
-  sessionNamespace: 'auth1',
+  namespace: 'auth1',
   template: 'var result = { error: "{errorCode}", access_token: "{accessToken}", expires_in: {expiresIn}, success: {isSuccess} }; var targetOrigin = "{targetOrigin}"',
   targetOrigin: '*'
 }
