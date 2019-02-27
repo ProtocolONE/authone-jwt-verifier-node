@@ -9,6 +9,7 @@ const config = {
   introspectPath: '/oauth2/introspect',
   publicHost: `http://localhost:${mockServerPort}`,
   privateHost: `http://localhost:${mockServerPort}`,
+  dummyJsonRequestPath: '/test/json',
   clientId: '5c6fc4888db4bc0001beacec',
   wrongClientId: '4bc0001beacec5c6fc4888db',
   clientSecret: 'RUOuk4bkWFNljuZzqwq5zrs0GdCLY9U3MJqubuDViUv7XQzgiU84y288Jh0klK1Z',

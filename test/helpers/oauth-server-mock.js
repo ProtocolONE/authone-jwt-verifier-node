@@ -78,6 +78,12 @@ router
     console.log(logPrefix, 'Finish request', 'POST', config.introspectPath, ctx.status, ctx.body)
   })
 
+  .post(config.dummyJsonRequestPath, koaBody, async (ctx) => {
+    console.log(logPrefix, 'Start request', 'POST', config.dummyJsonRequestPath)
+    ctx.body = ctx.request.body
+    console.log(logPrefix, 'Finish request', 'POST', config.dummyJsonRequestPath, ctx.status, ctx.body)
+  })
+
 const app = new Koa()
 app.use(router.routes())
 app.use(router.allowedMethods())

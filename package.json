@@ -1,7 +1,7 @@
 {
   "name": "authone-middleware-node",
   "description": "Node.js middleware for auth1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Evgeniy Strigo <evgeniy.strigo@protocol.one> ()",
   "ava": {
     "failFast": true,
