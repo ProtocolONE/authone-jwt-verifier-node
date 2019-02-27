@@ -1,8 +1,8 @@
-# authone-middleware-node
+# authone-jwt-verifier-node
 
-[![build status](https://img.shields.io/travis/ProtocolONE/authone-middleware-node.svg?branch=master)](https://travis-ci.com/ProtocolONE/authone-middleware-node)
-[![codecov](https://codecov.io/gh/ProtocolONE/authone-middleware-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-middleware-node)
-[![license](https://img.shields.io/github/license/ProtocolONE/authone-middleware-node.svg)](LICENSE)
+[![build status](https://img.shields.io/travis/ProtocolONE/authone-jwt-verifier-node.svg?branch=master)](https://travis-ci.com/ProtocolONE/authone-jwt-verifier-node)
+[![codecov](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node)
+[![license](https://img.shields.io/github/license/ProtocolONE/authone-jwt-verifier-node.svg)](LICENSE)
 
 > Node.JS middleware for ProtocolONE's Auth1 server.
 
