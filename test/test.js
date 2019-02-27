@@ -438,6 +438,21 @@ test('should cover body authorizationMethod method for requests wrapper', async 
   t.is(error.message, expectedResult)
 })
 
+test('should return post body on low-level dummy json request', async t => {
+  const data = {
+    code: config.code
+  }
+
+  const url = config.publicHost + config.dummyJsonRequestPath
+
+  const result = await auth1.request(url, {
+    bodyFormat: 'json',
+    data: data
+  })
+
+  t.deepEqual(result, data)
+})
+
 test('should set token with Redis cache', async t => {
   const params = {
     logger: console,
