@@ -20,25 +20,25 @@
 [npm][]:
 
 ```sh
-npm install authone-middleware-node
+npm install authone-jwt-verifier-node
 ```
 
 [yarn][]:
 
 ```sh
-yarn add authone-middleware-node
+yarn add authone-jwt-verifier-node
 ```
 
 
 ## Usage
 
 ```js
-const auth1Middleware = require('authone-middleware-node');
+const JwtVerifier = require('authone-jwt-verifier-node');
 
-const middlewareOptions = {
+const verifierOptions = {
 // ... 
 };
-const auth1 = auth1Middleware(middlewareOptions)
+const jwtVerifier = new JwtVerifier(verifierOptions)
 
 // script
 ```
@@ -53,7 +53,7 @@ const auth1 = auth1Middleware(middlewareOptions)
 
 ## License
 
-[Apache-2.0](LICENSE) © Evgeniy Strigo
+[MIT](LICENSE) © Evgeniy Strigo
 
 
 ## 

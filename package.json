@@ -1,33 +1,25 @@
 {
-  "name": "authone-middleware-node",
+  "name": "authone-jwt-verifier-node",
   "description": "Node.js middleware for auth1",
-  "version": "1.0.2",
-  "author": "Evgeniy Strigo <evgeniy.strigo@protocol.one> ()",
+  "version": "1.1.0",
+  "author": "Evgeniy Strigo <evgeniy.strigo@protocol.one>",
   "ava": {
     "failFast": true,
     "verbose": true
   },
   "bugs": {
-    "url": "https://github.com/ProtocolONE/authone-middleware-node/issues",
+    "url": "https://github.com/ProtocolONE/authone-jwt-verifier-node/issues",
     "email": "evgeniy.strigo@protocol.one"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "contributors": [
-    "Evgeniy Strigo <evgeniy.strigo@protocol.one> ()"
+    "Evgeniy Strigo <evgeniy.strigo@protocol.one>"
   ],
   "dependencies": {
     "axios": "^0.18.0",
-    "ioredis": "^4.6.2",
     "koa-unless": "^1.0.7",
-    "lodash": "^4.17.11",
     "lru-cache": "^5.1.1",
     "querystring": "^0.2.0",
-    "string-template": "^1.0.0",
-    "url": "^0.11.0"
+    "string-template": "^1.0.0"
   },
   "devDependencies": {
     "ava": "latest",
@@ -40,11 +32,11 @@
     "eslint-plugin-standard": "latest",
     "fixpack": "latest",
     "husky": "latest",
-    "koa": "^2.7.0",
-    "koa-body": "^4.0.8",
-    "koa-convert": "^1.2.0",
-    "koa-router": "^7.4.0",
+    "install": "^0.12.2",
+    "ioredis": "^4.6.2",
     "lint-staged": "latest",
+    "mock-http-server": "^1.2.0",
+    "npm": "^6.8.0",
     "nyc": "latest",
     "prettier": "latest",
     "remark-cli": "latest",
@@ -54,16 +46,16 @@
   "engines": {
     "node": ">=8.3"
   },
-  "homepage": "https://github.com/ProtocolONE/authone-middleware-node",
+  "homepage": "https://github.com/ProtocolONE/authone-jwt-verifier-node",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && npm test"
     }
   },
   "keywords": [
-    "authone-middleware-node"
+    "authone-jwt-verifier-node"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "lint-staged": {
     "linters": {
       "*.js": [
@@ -99,7 +91,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ProtocolONE/authone-middleware-node"
+    "url": "https://github.com/ProtocolONE/authone-jwt-verifier-node"
   },
   "scripts": {
     "ava": "cross-env NODE_ENV=test ava -s",
