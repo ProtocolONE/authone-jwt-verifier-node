@@ -1,4 +1,4 @@
-# authone-jwt-verifier-node
+# AuthOne JWT verifier for Node.js
 
 [![build status](https://img.shields.io/travis/ProtocolONE/authone-jwt-verifier-node.svg?branch=master)](https://travis-ci.com/ProtocolONE/authone-jwt-verifier-node)
 [![codecov](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node)
