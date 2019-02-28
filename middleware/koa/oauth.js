@@ -69,7 +69,7 @@ module.exports.oauthEndpoints = (jwtVerifierInstance, options) => {
     throw new Error('No options passed')
   }
 
-  const requiredOptions = ['namespace', 'postmessageHtmlTemplate', 'postMessageTargetOrigin']
+  const requiredOptions = ['namespace', 'postMessageHtmlTemplate', 'postMessageTargetOrigin']
   requiredOptions.forEach(key => {
     if (typeof (options[key]) === 'undefined') {
       throw new Error(`Required option "${key}" not set`)
@@ -112,7 +112,7 @@ module.exports.oauthEndpoints = (jwtVerifierInstance, options) => {
     }
     resultParams.isSuccess = resultParams.errorCode === ''
     ctx.type = 'html'
-    ctx.body = format(options.postmessageHtmlTemplate, resultParams)
+    ctx.body = format(options.postMessageHtmlTemplate, resultParams)
   }
 
   // Login endpoint

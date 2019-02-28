@@ -22,7 +22,7 @@ const jwtVerifier = new JwtVerifier(verifierOptions)
 
 const endpointsOptions = {
   namespace: fakes.namespace,
-  postmessageHtmlTemplate: fakes.template,
+  postMessageHtmlTemplate: fakes.template,
   postMessageTargetOrigin: fakes.targetOrigin
 }
 
@@ -47,7 +47,7 @@ test('should throws error when create oauthEndpoints without options', t => {
 })
 
 test('should throws error when create oauthEndpoints without some required options 1', t => {
-  const expectedResult = 'Required option "postmessageHtmlTemplate" not set'
+  const expectedResult = 'Required option "postMessageHtmlTemplate" not set'
   const options = {
     namespace: fakes.namespace
   }
@@ -59,7 +59,7 @@ test('should throws error when create oauthEndpoints without some required optio
   const expectedResult = 'Required option "postMessageTargetOrigin" not set'
   const options = {
     namespace: fakes.namespace,
-    postmessageHtmlTemplate: fakes.template
+    postMessageHtmlTemplate: fakes.template
   }
   const error = t.throws(() => { return koaOauthMiddleware.oauthEndpoints(jwtVerifier, options) })
   t.is(error.message, expectedResult)
@@ -68,7 +68,7 @@ test('should throws error when create oauthEndpoints without some required optio
 test('should throws error when create oauthEndpoints without some required options 3', t => {
   const expectedResult = 'Required option "namespace" not set'
   const options = {
-    postmessageHtmlTemplate: fakes.template,
+    postMessageHtmlTemplate: fakes.template,
     postMessageTargetOrigin: fakes.targetOrigin
   }
   const error = t.throws(() => { return koaOauthMiddleware.oauthEndpoints(jwtVerifier, options) })
@@ -78,7 +78,7 @@ test('should throws error when create oauthEndpoints without some required optio
 test('should create oauthEndpoints instance success with all params passed', t => {
   const options = {
     namespace: fakes.namespace,
-    postmessageHtmlTemplate: fakes.template,
+    postMessageHtmlTemplate: fakes.template,
     postMessageTargetOrigin: fakes.targetOrigin
   }
   t.notThrows(() => { return koaOauthMiddleware.oauthEndpoints(jwtVerifier, options) })

@@ -99,6 +99,8 @@
     "lint": "standard && remark . -qfo",
     "nyc": "cross-env NODE_ENV=test nyc ava -s",
     "test": "npm run lint && npm run ava -s",
-    "test-coverage": "npm run lint && npm run nyc"
+    "test-coverage": "npm run lint && npm run nyc",
+    "precommit": "lint-staged",
+    "postcommit": "git update-index --again"
   }
 }

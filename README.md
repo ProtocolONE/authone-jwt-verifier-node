@@ -2,7 +2,7 @@
 
 [![build status](https://img.shields.io/travis/ProtocolONE/authone-jwt-verifier-node.svg?branch=master)](https://travis-ci.com/ProtocolONE/authone-jwt-verifier-node)
 [![codecov](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node)
-[![license](https://img.shields.io/github/license/ProtocolONE/authone-jwt-verifier-node.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 
 ## Table of Contents
@@ -30,16 +30,8 @@ yarn add authone-jwt-verifier-node
 
 ## Usage
 
-```js
-const JwtVerifier = require('authone-jwt-verifier-node');
-
-const verifierOptions = {
-// ... 
-};
-const jwtVerifier = new JwtVerifier(verifierOptions)
-
-// script
-```
+See [examples](examples) folder for small applications, that demonstrates basic authorization scenarios and 
+middleware settings
 
 
 ## Contributors
