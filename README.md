@@ -2,9 +2,7 @@
 
 [![build status](https://img.shields.io/travis/ProtocolONE/authone-jwt-verifier-node.svg?branch=master)](https://travis-ci.com/ProtocolONE/authone-jwt-verifier-node)
 [![codecov](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node)
-[![license](https://img.shields.io/github/license/ProtocolONE/authone-jwt-verifier-node.svg)](LICENSE)
-
-> Node.JS middleware for ProtocolONE's Auth1 server.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 
 ## Table of Contents
@@ -20,28 +18,20 @@
 [npm][]:
 
 ```sh
-npm install authone-middleware-node
+npm install authone-jwt-verifier-node
 ```
 
 [yarn][]:
 
 ```sh
-yarn add authone-middleware-node
+yarn add authone-jwt-verifier-node
 ```
 
 
 ## Usage
 
-```js
-const auth1Middleware = require('authone-middleware-node');
-
-const middlewareOptions = {
-// ... 
-};
-const auth1 = auth1Middleware(middlewareOptions)
-
-// script
-```
+See [examples](examples) folder for small applications, that demonstrates basic authorization scenarios and 
+middleware settings
 
 
 ## Contributors
@@ -53,7 +43,7 @@ const auth1 = auth1Middleware(middlewareOptions)
 
 ## License
 
-[Apache-2.0](LICENSE) © Evgeniy Strigo
+[MIT](LICENSE) © Evgeniy Strigo
 
 
 ## 

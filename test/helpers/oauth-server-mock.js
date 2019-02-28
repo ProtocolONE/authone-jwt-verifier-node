@@ -1,95 +1,139 @@
 'use strict'
 
-const Koa = require('koa')
-const Router = require('koa-router')
-const convert = require('koa-convert')
-const KoaBody = require('koa-body')
+const ServerMock = require('mock-http-server')
 
-const config = require('./config')
+const fakes = require('./fakes')
 
-const port = config.mockServerPort
+const server = new ServerMock({ host: 'localhost', port: fakes.mockServerPort })
 
-const koaBody = convert(KoaBody({
-  urlencoded: true
-}))
+server.on({
+  method: 'get',
+  path: '/userinfo',
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ sub: fakes.userId })
+  }
+})
 
-const logPrefix = 'MOCK SERVER'
+server.on({
+  method: 'post',
+  path: '/oauth2/revoke',
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' }
+  }
+})
 
-const router = new Router()
-router
-  .post(config.tokenPath, koaBody, async (ctx) => {
-    console.log(logPrefix, 'Start request', 'POST', config.tokenPath)
+server.on({
+  method: 'post',
+  path: '/oauth2/token',
+  filter: function (req) {
+    return !req.headers.authorization
+  },
+  reply: {
+    status: 401,
+    headers: { 'content-type': 'application/json' }
+  }
+})
 
-    if (!ctx.header.authorization) {
-      return ctx.throw(401)
-    }
+server.on({
+  method: 'post',
+  path: '/oauth2/token',
+  filter: function (req) {
+    return !!req.headers.authorization && req.body.grant_type === 'authorization_code'
+  },
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      access_token: fakes.accessToken,
+      expires_in: fakes.expiresIn,
+      id_token: fakes.idToken,
+      refresh_token: fakes.refreshToken,
+      scope: fakes.scope.join(' '),
+      token_type: fakes.tokenType
+    })
+  }
+})
 
-    const grantType = ctx.request.body.grant_type
-    ctx.body = {
-      access_token: config.accessToken,
-      expires_in: config.expiresIn,
-      id_token: config.idToken,
-      refresh_token: config.refreshToken,
-      scope: config.scope.join(' '),
-      token_type: config.tokenType
-    }
-    if (grantType === 'refresh_token') {
-      ctx.body.access_token = config.refreshedAccessToken
-      ctx.body.refresh_token = config.refreshedRefreshToken
-    }
-    console.log(logPrefix, 'Finish request', 'POST', config.tokenPath, ctx.status, ctx.body)
-  })
+server.on({
+  method: 'post',
+  path: '/oauth2/token',
+  filter: function (req) {
+    return !!req.headers.authorization && req.body.grant_type === 'refresh_token'
+  },
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      access_token: fakes.refreshedAccessToken,
+      expires_in: fakes.expiresIn,
+      id_token: fakes.idToken,
+      refresh_token: fakes.refreshedRefreshToken,
+      scope: fakes.scope.join(' '),
+      token_type: fakes.tokenType
+    })
+  }
+})
 
-  .get(config.userinfoPath, koaBody, async (ctx) => {
-    console.log(logPrefix, 'Start request', 'GET', config.userinfoPath)
-    ctx.body = {
-      sub: config.userId
-    }
-    console.log(logPrefix, 'Finish request', 'GET', config.userinfoPath, ctx.status, ctx.body)
-  })
+server.on({
+  method: 'post',
+  path: '/oauth2/introspect',
+  filter: function (req) {
+    return !!req.headers.authorization && req.body.token === fakes.expiredAccessToken
+  },
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      'active': false
+    })
+  }
+})
 
-  .post(config.revokePath, koaBody, async (ctx) => {
-    console.log(logPrefix, 'Start request', 'POST', config.revokePath)
-    ctx.body = null
-    console.log(logPrefix, 'Finish request', 'POST', config.revokePath, ctx.status, ctx.body)
-  })
+server.on({
+  method: 'post',
+  path: '/oauth2/introspect',
+  filter: function (req) {
+    return !!req.headers.authorization && req.body.token === fakes.refreshToken
+  },
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      'active': true,
+      'scope': fakes.scope.join(' '),
+      'client_id': fakes.clientId,
+      'sub': fakes.userId,
+      'exp': fakes.exp,
+      'iat': 1551187917,
+      'iss': 'http://192.168.99.100:4444/',
+      'token_type': 'refresh_token'
+    })
+  }
+})
 
-  .post(config.introspectPath, koaBody, async (ctx) => {
-    console.log(logPrefix, 'Start request', 'POST', config.introspectPath)
-    const token = ctx.request.body.token
-    if (token === config.expiredAccessToken) {
-      ctx.body = {
-        'active': false
-      }
-    } else {
-      const tokenType = token === config.refreshToken ? 'refresh_token' : 'access_token'
-
-      ctx.body = {
-        'active': true,
-        'scope': config.scope.join(' '),
-        'client_id': token === config.invalidClientAccessToken ? config.wrongClientId : config.clientId,
-        'sub': config.userId,
-        'exp': 1551191517,
-        'iat': 1551187917,
-        'iss': 'http://192.168.99.100:4444/',
-        'token_type': tokenType
-      }
-    }
-    console.log(logPrefix, 'Finish request', 'POST', config.introspectPath, ctx.status, ctx.body)
-  })
-
-  .post(config.dummyJsonRequestPath, koaBody, async (ctx) => {
-    console.log(logPrefix, 'Start request', 'POST', config.dummyJsonRequestPath)
-    ctx.body = ctx.request.body
-    console.log(logPrefix, 'Finish request', 'POST', config.dummyJsonRequestPath, ctx.status, ctx.body)
-  })
-
-const app = new Koa()
-app.use(router.routes())
-app.use(router.allowedMethods())
-
-const server = app.listen(port, () => {
-  console.log(`Mock server listening on port: ${port}`)
+server.on({
+  method: 'post',
+  path: '/oauth2/introspect',
+  filter: function (req) {
+    return !!req.headers.authorization && req.body.token === fakes.accessToken
+  },
+  reply: {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      'active': true,
+      'scope': fakes.scope.join(' '),
+      'client_id': fakes.clientId,
+      'sub': fakes.userId,
+      'exp': fakes.exp,
+      'iat': 1551187917,
+      'iss': 'http://192.168.99.100:4444/',
+      'token_type': 'access_token'
+    })
+  }
 })
 
 module.exports = server
