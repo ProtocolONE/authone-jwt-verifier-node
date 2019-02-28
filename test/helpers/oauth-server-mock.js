@@ -8,7 +8,7 @@ const server = new ServerMock({ host: 'localhost', port: fakes.mockServerPort })
 
 server.on({
   method: 'get',
-  path: '/userinfo',
+  path: '/oauth2/userinfo',
   reply: {
     status: 200,
     headers: { 'content-type': 'application/json' },
