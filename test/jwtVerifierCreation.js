@@ -71,6 +71,29 @@ test('should create JwtVerifier instance success with all options passed', t => 
   t.notThrows(() => { return new JwtVerifier(options) })
 })
 
+test('should throws error when create JwtVerifier instance with all empty options passed', t => {
+  const expectedResult = 'Issuer option passed but cannot be empty'
+  const options = {
+    issuer: '',
+    clientSecret: '',
+    clientId: '',
+    redirectUrl: ''
+  }
+  const error = t.throws(() => { return new JwtVerifier(options) })
+  t.is(error.message, expectedResult)
+})
+
+test('should create JwtVerifier instance success with all empty options passed except issuer (but it may cause' +
+  ' errors in future)', t => {
+  const options = {
+    issuer: fakes.issuer,
+    clientSecret: '',
+    clientId: '',
+    redirectUrl: ''
+  }
+  t.notThrows(() => { return new JwtVerifier(options) })
+})
+
 test('should create JwtVerifier instance success with all options and cache instance passed', t => {
   const options = {
     issuer: fakes.issuer,

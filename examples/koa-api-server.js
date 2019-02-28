@@ -12,10 +12,9 @@ const { JwtVerifier, StorageRedis, koaOauthMiddleware } = require('authone-jwt-v
 // You must set your own values here
 const verifierOptions = {
   issuer: 'https://auth1.protocol.one',
-  clientId: '5c6fc4888db4bc0001beacec',
-  clientSecret: 'RUOuk4bkWFNljuZzqwq5zrs0GdCLY9U3MJqubuDViUv7XQzgiU84y288Jh0klK1Z',
-  redirectUrl: 'https://myapp.protocol.one',
-  scopes: ['oauth', 'offline']
+  clientId: '',
+  clientSecret: '',
+  redirectUrl: ''
 }
 
 const namespace = 'auth1'

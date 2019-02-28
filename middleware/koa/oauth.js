@@ -41,22 +41,26 @@ module.exports.requestAuthenticator = (jwtVerifierInstance, namespace) => {
   }
 
   return async function (ctx, next) {
-    const token = getTokenFromHeader(ctx)
-    if (!token) {
-      ctx.throw(401, 'Authentication Error')
-      return
+    try {
+      const token = getTokenFromHeader(ctx)
+      if (!token) {
+        ctx.throw(401, 'Authentication Error')
+        return
+      }
+
+      const result = await jwtVerifierInstance.introspect(token, getParams(ctx))
+      if (!result.active) {
+        ctx.throw(401, 'Authentication Error')
+        return
+      }
+
+      ctx.state = ctx.state || {}
+      ctx.state[namespace] = result
+
+      return next()
+    } catch (err) {
+      throw err
     }
-
-    const result = await jwtVerifierInstance.introspect(token, getParams(ctx))
-    if (!result.active) {
-      ctx.throw(401, 'Authentication Error')
-      return
-    }
-
-    ctx.state = ctx.state || {}
-    ctx.state[namespace] = result
-
-    return next()
   }
 }
 
