@@ -1,6 +1,5 @@
 'use strict'
 
-const unless = require('koa-unless')
 const format = require('string-template')
 
 const kebabCase = str => str
@@ -20,10 +19,10 @@ const getParams = (ctx) => {
 
 module.exports.requestAuthenticator = (jwtVerifierInstance, namespace) => {
   if (!jwtVerifierInstance) {
-    throw new Error('No jwtVerifier instance')
+    throw new Error('No jwtVerifier instance passed')
   }
   if (!namespace) {
-    throw new Error(`Required parameter namespace not set`)
+    throw new Error(`No namespace passed`)
   }
 
   const getTokenFromHeader = (ctx) => {
@@ -41,7 +40,7 @@ module.exports.requestAuthenticator = (jwtVerifierInstance, namespace) => {
     }
   }
 
-  const verifyRequest = async function (ctx, next) {
+  return async function (ctx, next) {
     const token = getTokenFromHeader(ctx)
     if (!token) {
       ctx.throw(401, 'Authentication Error')
@@ -59,20 +58,21 @@ module.exports.requestAuthenticator = (jwtVerifierInstance, namespace) => {
 
     return next()
   }
-  verifyRequest.unless = unless
-
-  return verifyRequest
 }
 
-module.exports.oauthMethods = (jwtVerifierInstance, options) => {
+module.exports.oauthEndpoints = (jwtVerifierInstance, options) => {
   if (!jwtVerifierInstance) {
-    throw new Error('No jwtVerifier instance')
+    throw new Error('No jwtVerifier instance passed')
+  }
+
+  if (!options) {
+    throw new Error('No options passed')
   }
 
   const requiredOptions = ['namespace', 'postmessageHtmlTemplate', 'postMessageTargetOrigin']
   requiredOptions.forEach(key => {
-    if (typeof (options(key)) === 'undefined') {
-      throw new Error(`Required parameter ${key} not set`)
+    if (typeof (options[key]) === 'undefined') {
+      throw new Error(`Required option "${key}" not set`)
     }
   })
 
@@ -168,7 +168,7 @@ module.exports.oauthMethods = (jwtVerifierInstance, options) => {
   const refresh = async (ctx) => {
     try {
       const tokens = getTokensFromSession(ctx)
-      const newTokens = await jwtVerifierInstance.refreshToken(tokens.refresh_token, getParams(ctx))
+      const newTokens = await jwtVerifierInstance.refresh(tokens.refresh_token, getParams(ctx))
       ctx.session[options.namespace] = newTokens
       ctx.body = {
         access_token: newTokens.access_token,

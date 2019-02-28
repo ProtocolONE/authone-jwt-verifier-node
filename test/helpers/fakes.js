@@ -1,11 +1,49 @@
 'use strict'
 
+const chai = require('chai')
+const spies = require('chai-spies')
+
+chai.use(spies)
+
 const mockServerPort = process.env.MOCK_SERVER_PORT || 3000
 
 const getRequestId = () => Math.random().toString(36).substring(2) +
   Math.random().toString(36).substring(2)
 
-const config = {
+const getRedirect = () => {
+  function redirect () {
+  }
+  return chai.spy(redirect)
+}
+
+const getThrow = () => {
+  return chai.spy(function () {
+  })
+}
+const getNext = () => {
+  function _next () {
+  }
+  return chai.spy(_next)
+}
+
+const getFakeCtx = (session, query, header) => {
+  return {
+    id: getRequestId(),
+    log: console,
+    session: session || {},
+    query: query || {},
+    header: header || {},
+    body: undefined,
+    status: 200,
+    redirect: getRedirect(),
+    throw: getThrow()
+  }
+}
+
+const fakes = {
+  getFakeCtx: getFakeCtx,
+  getNext: getNext,
+
   mockServerPort: mockServerPort,
   issuer: `http://localhost:${mockServerPort}`,
   clientId: '5c6fc4888db4bc0001beacec',
@@ -79,4 +117,4 @@ const config = {
   }
 }
 
-module.exports = config
+module.exports = fakes

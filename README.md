@@ -4,8 +4,6 @@
 [![codecov](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node/branch/master/graph/badge.svg)](https://codecov.io/gh/ProtocolONE/authone-jwt-verifier-node)
 [![license](https://img.shields.io/github/license/ProtocolONE/authone-jwt-verifier-node.svg)](LICENSE)
 
-> Node.JS middleware for ProtocolONE's Auth1 server.
-
 
 ## Table of Contents
 

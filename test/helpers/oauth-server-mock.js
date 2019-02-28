@@ -2,9 +2,9 @@
 
 const ServerMock = require('mock-http-server')
 
-const config = require('./config')
+const fakes = require('./fakes')
 
-const server = new ServerMock({ host: 'localhost', port: config.mockServerPort })
+const server = new ServerMock({ host: 'localhost', port: fakes.mockServerPort })
 
 server.on({
   method: 'get',
@@ -12,7 +12,7 @@ server.on({
   reply: {
     status: 200,
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ sub: config.userId })
+    body: JSON.stringify({ sub: fakes.userId })
   }
 })
 
@@ -47,12 +47,12 @@ server.on({
     status: 200,
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      access_token: config.accessToken,
-      expires_in: config.expiresIn,
-      id_token: config.idToken,
-      refresh_token: config.refreshToken,
-      scope: config.scope.join(' '),
-      token_type: config.tokenType
+      access_token: fakes.accessToken,
+      expires_in: fakes.expiresIn,
+      id_token: fakes.idToken,
+      refresh_token: fakes.refreshToken,
+      scope: fakes.scope.join(' '),
+      token_type: fakes.tokenType
     })
   }
 })
@@ -67,12 +67,12 @@ server.on({
     status: 200,
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      access_token: config.refreshedAccessToken,
-      expires_in: config.expiresIn,
-      id_token: config.idToken,
-      refresh_token: config.refreshedRefreshToken,
-      scope: config.scope.join(' '),
-      token_type: config.tokenType
+      access_token: fakes.refreshedAccessToken,
+      expires_in: fakes.expiresIn,
+      id_token: fakes.idToken,
+      refresh_token: fakes.refreshedRefreshToken,
+      scope: fakes.scope.join(' '),
+      token_type: fakes.tokenType
     })
   }
 })
@@ -81,7 +81,7 @@ server.on({
   method: 'post',
   path: '/oauth2/introspect',
   filter: function (req) {
-    return !!req.headers.authorization && req.body.token === config.expiredAccessToken
+    return !!req.headers.authorization && req.body.token === fakes.expiredAccessToken
   },
   reply: {
     status: 200,
@@ -96,17 +96,17 @@ server.on({
   method: 'post',
   path: '/oauth2/introspect',
   filter: function (req) {
-    return !!req.headers.authorization && req.body.token === config.refreshToken
+    return !!req.headers.authorization && req.body.token === fakes.refreshToken
   },
   reply: {
     status: 200,
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       'active': true,
-      'scope': config.scope.join(' '),
-      'client_id': config.clientId,
-      'sub': config.userId,
-      'exp': config.exp,
+      'scope': fakes.scope.join(' '),
+      'client_id': fakes.clientId,
+      'sub': fakes.userId,
+      'exp': fakes.exp,
       'iat': 1551187917,
       'iss': 'http://192.168.99.100:4444/',
       'token_type': 'refresh_token'
@@ -118,17 +118,17 @@ server.on({
   method: 'post',
   path: '/oauth2/introspect',
   filter: function (req) {
-    return !!req.headers.authorization && req.body.token === config.accessToken
+    return !!req.headers.authorization && req.body.token === fakes.accessToken
   },
   reply: {
     status: 200,
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       'active': true,
-      'scope': config.scope.join(' '),
-      'client_id': config.clientId,
-      'sub': config.userId,
-      'exp': config.exp,
+      'scope': fakes.scope.join(' '),
+      'client_id': fakes.clientId,
+      'sub': fakes.userId,
+      'exp': fakes.exp,
       'iat': 1551187917,
       'iss': 'http://192.168.99.100:4444/',
       'token_type': 'access_token'

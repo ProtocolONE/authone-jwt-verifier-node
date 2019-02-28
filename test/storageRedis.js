@@ -2,13 +2,14 @@
 
 const test = require('ava')
 const Redis = require('ioredis')
-const config = require('./helpers/config')
 
 const { StorageRedis } = require('..')
 
+const fakes = require('./helpers/fakes')
+
 let storageRedis
 
-const redisInstance = new Redis(config.redisPort, config.redisHost)
+const redisInstance = new Redis(fakes.redisPort, fakes.redisHost)
 
 test('should throws error when create instance without params', t => {
   const error = t.throws(() => { return new StorageRedis() })
