@@ -1,10 +1,13 @@
 'use strict'
 
 const test = require('ava')
+const chai = require('chai')
 
-const { JwtVerifier } = require('../')
+const { JwtVerifier, koaOauthMiddleware } = require('../')
 
 const fakes = require('./helpers/fakes')
+
+const expect = chai.expect
 
 const verifierOptions = {
   issuer: fakes.issuer,
@@ -22,4 +25,15 @@ test('should throw error on oauth server request, it is unreachable', async t =>
     return jwtVerifier.exchange(fakes.code)
   })
   t.is(error.message, expectedResult)
+})
+
+const requestAuthenticator = koaOauthMiddleware.requestAuthenticator(jwtVerifier, fakes.namespace)
+
+test('koa middleware authenticateRequest should fail if oauth server is unreachable', async t => {
+  const ctx = fakes.getFakeCtx()
+  ctx.header.authorization = `Bearer ${fakes.accessToken}`
+  const next = fakes.getNext()
+  t.is(await requestAuthenticator(ctx, next), undefined)
+  expect(ctx.throw).to.have.been.called()
+  expect(next).to.have.not.been.called()
 })

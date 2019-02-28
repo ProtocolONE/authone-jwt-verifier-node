@@ -59,7 +59,7 @@ module.exports.requestAuthenticator = (jwtVerifierInstance, namespace) => {
 
       return next()
     } catch (err) {
-      throw err
+      ctx.throw(500, err.message)
     }
   }
 }
