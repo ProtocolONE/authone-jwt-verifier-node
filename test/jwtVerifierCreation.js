@@ -13,7 +13,7 @@ test('should throws error when create JwtVerifier instance without options', t =
 })
 
 test('should throws error when create JwtVerifier instance with only one required option issuer', t => {
-  const expectedResult = "Required option 'clientId' not set"
+  const expectedResult = "Required option 'clientId' not set or empty"
   const options = {
     issuer: fakes.issuer
   }
@@ -22,7 +22,7 @@ test('should throws error when create JwtVerifier instance with only one require
 })
 
 test('should throws error when create JwtVerifier instance with only one required option clientId', t => {
-  const expectedResult = "Required option 'issuer' not set"
+  const expectedResult = "Required option 'issuer' not set or empty"
   const options = {
     clientId: fakes.clientId
   }
@@ -31,7 +31,7 @@ test('should throws error when create JwtVerifier instance with only one require
 })
 
 test('should throws error when create JwtVerifier instance with only one required option clientSecret', t => {
-  const expectedResult = "Required option 'issuer' not set"
+  const expectedResult = "Required option 'issuer' not set or empty"
   const options = {
     clientSecret: fakes.clientSecret
   }
@@ -72,7 +72,7 @@ test('should create JwtVerifier instance success with all options passed', t => 
 })
 
 test('should throws error when create JwtVerifier instance with all empty options passed', t => {
-  const expectedResult = 'Issuer option passed but cannot be empty'
+  const expectedResult = "Required option 'issuer' not set or empty"
   const options = {
     issuer: '',
     clientSecret: '',
@@ -83,12 +83,11 @@ test('should throws error when create JwtVerifier instance with all empty option
   t.is(error.message, expectedResult)
 })
 
-test('should create JwtVerifier instance success with all empty options passed except issuer (but it may cause' +
-  ' errors in future)', t => {
+test('should create JwtVerifier instance success with empty redirectUrl (but it may cause errors in future)', t => {
   const options = {
     issuer: fakes.issuer,
-    clientSecret: '',
-    clientId: '',
+    clientSecret: fakes.clientSecret,
+    clientId: fakes.clientId,
     redirectUrl: ''
   }
   t.notThrows(() => { return new JwtVerifier(options) })
