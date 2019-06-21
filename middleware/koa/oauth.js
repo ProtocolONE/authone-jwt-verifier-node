@@ -163,7 +163,7 @@ module.exports.oauthEndpoints = (jwtVerifierInstance, options) => {
   const userinfo = async (ctx) => {
     try {
       const tokens = getTokensFromSession(ctx)
-      return jwtVerifierInstance.getUserInfo(tokens.access_token, getParams(ctx))
+      ctx.body = await jwtVerifierInstance.getUserInfo(tokens.access_token, getParams(ctx))
     } catch (err) {
       handleError(ctx, err)
     }

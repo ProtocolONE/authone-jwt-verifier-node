@@ -5,8 +5,8 @@ const chai = require('chai')
 
 const { JwtVerifier, koaOauthMiddleware } = require('..')
 
-const fakes = require('./helpers/fakes')
-const server = require('./helpers/oauth-server-mock')
+const fakes = require('../mock/fakes')
+const server = require('../mock/oauth-server-mock')
 
 const expect = chai.expect
 
@@ -179,7 +179,8 @@ test('koa middleware should return userinfo success', async t => {
   const expectedResult = {
     sub: fakes.userId
   }
-  t.deepEqual(await oauthEndpoints.userinfo(fakeCtx), expectedResult)
+  await oauthEndpoints.userinfo(fakeCtx)
+  t.deepEqual(fakeCtx.body, expectedResult)
 })
 
 test('koa middleware should return introspect success', async t => {

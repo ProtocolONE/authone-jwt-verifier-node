@@ -15,7 +15,7 @@
     "Evgeniy Strigo <evgeniy.strigo@protocol.one>"
   ],
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "lru-cache": "^5.1.1",
     "querystring": "^0.2.0",
     "string-template": "^1.0.0"
@@ -35,8 +35,8 @@
     "ioredis": "^4.6.2",
     "lint-staged": "latest",
     "mock-http-server": "^1.2.0",
-    "npm": "^6.8.0",
-    "nyc": "latest",
+    "npm": "^6.9.0",
+    "nyc": "^14.1.1",
     "prettier": "latest",
     "remark-cli": "latest",
     "remark-preset-github": "latest",
@@ -98,9 +98,9 @@
     "format": "standard --fix",
     "lint": "standard && remark . -qfo",
     "nyc": "cross-env NODE_ENV=test nyc ava -s",
-    "test": "npm run lint && npm run ava -s",
-    "test-coverage": "npm run lint && npm run nyc",
+    "postcommit": "git update-index --again",
     "precommit": "lint-staged",
-    "postcommit": "git update-index --again"
+    "test": "npm run lint && npm run ava -s",
+    "test-coverage": "npm run lint && npm run nyc"
   }
 }

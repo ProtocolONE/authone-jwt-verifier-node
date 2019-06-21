@@ -4,7 +4,7 @@ const test = require('ava')
 
 const { JwtVerifier, StorageMemory } = require('..')
 
-const fakes = require('./helpers/fakes')
+const fakes = require('../mock/fakes')
 
 test('should throws error when create JwtVerifier instance without options', t => {
   const expectedResult = 'Options not passed'
