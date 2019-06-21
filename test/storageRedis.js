@@ -5,7 +5,7 @@ const Redis = require('ioredis')
 
 const { StorageRedis } = require('..')
 
-const fakes = require('./helpers/fakes')
+const fakes = require('../mock/fakes')
 
 let storageRedis
 

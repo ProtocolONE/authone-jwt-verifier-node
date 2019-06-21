@@ -4,8 +4,8 @@ const test = require('ava')
 
 const { JwtVerifier } = require('../')
 
-const fakes = require('./helpers/fakes')
-const server = require('./helpers/oauth-server-mock')
+const fakes = require('../mock/fakes')
+const server = require('../mock/oauth-server-mock')
 
 const verifierOptions = {
   issuer: fakes.issuer,

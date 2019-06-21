@@ -5,8 +5,8 @@ const chai = require('chai')
 
 const { JwtVerifier, koaOauthMiddleware } = require('..')
 
-const fakes = require('./helpers/fakes')
-const server = require('./helpers/oauth-server-mock')
+const fakes = require('../mock/fakes')
+const server = require('../mock/oauth-server-mock')
 
 const expect = chai.expect
 

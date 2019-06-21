@@ -5,8 +5,8 @@ const Redis = require('ioredis')
 
 const { JwtVerifier, StorageRedis } = require('../')
 
-const fakes = require('./helpers/fakes')
-const server = require('./helpers/oauth-server-mock')
+const fakes = require('../mock/fakes')
+const server = require('../mock/oauth-server-mock')
 
 const verifierOptions = {
   issuer: fakes.issuer,
