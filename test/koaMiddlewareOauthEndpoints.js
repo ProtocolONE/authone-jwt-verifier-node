@@ -179,7 +179,8 @@ test('koa middleware should return userinfo success', async t => {
   const expectedResult = {
     sub: fakes.userId
   }
-  t.deepEqual(await oauthEndpoints.userinfo(fakeCtx), expectedResult)
+  await oauthEndpoints.userinfo(fakeCtx)
+  t.deepEqual(fakeCtx.body, expectedResult)
 })
 
 test('koa middleware should return introspect success', async t => {
