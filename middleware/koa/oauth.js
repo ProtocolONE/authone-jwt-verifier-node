@@ -22,7 +22,7 @@ module.exports.requestAuthenticator = (jwtVerifierInstance, namespace) => {
     throw new Error('No jwtVerifier instance passed')
   }
   if (!namespace) {
-    throw new Error(`No namespace passed`)
+    throw new Error('No namespace passed')
   }
 
   const getTokenFromHeader = (ctx) => {
@@ -93,7 +93,9 @@ module.exports.oauthEndpoints = (jwtVerifierInstance, options) => {
   const getTokensFromSession = (ctx) => {
     const tokens = ctx.session[options.namespace]
     if (!tokens) {
-      throw new Error('User not logged')
+      const err = new Error('User not logged')
+      err.status = 401
+      throw err
     }
     return tokens
   }
